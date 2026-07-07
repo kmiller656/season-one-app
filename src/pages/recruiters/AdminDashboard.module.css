@@ -1,0 +1,62 @@
+.layout { display: grid; grid-template-columns: 220px 1fr; min-height: 100vh; background: var(--off-white); }
+.loading { display: flex; align-items: center; justify-content: center; height: 100vh; font-family: var(--font); color: var(--gray-500); font-size: 14px; }
+.loadingState { color: var(--gray-500); font-size: 14px; padding: 40px 0; }
+
+.sidebar { background: var(--navy); padding: 28px 24px; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+.logo { font-size: 17px; font-weight: 800; color: var(--white); letter-spacing: -0.4px; margin-bottom: 8px; }
+.logo span { color: var(--blue-light); }
+.adminBadge { display: inline-block; background: rgba(248,113,113,0.2); border: 1px solid rgba(248,113,113,0.4); color: #fca5a5; font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; margin-bottom: 28px; align-self: flex-start; }
+.nav { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.navItem { font-size: 14px; font-weight: 600; color: var(--gray-300); padding: 10px 12px; border-radius: var(--radius); cursor: pointer; transition: background 0.15s, color 0.15s; }
+.navItem:hover { background: rgba(255,255,255,0.05); color: var(--white); }
+.navActive { background: rgba(26,107,204,0.2) !important; color: var(--white) !important; }
+.sidebarFooter { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+.userEmail { font-size: 12px; color: var(--gray-500); word-break: break-all; }
+
+.main { padding: 36px 40px; display: flex; flex-direction: column; gap: 24px; }
+.header { display: flex; align-items: flex-start; justify-content: space-between; }
+.pageTitle { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; color: var(--navy); }
+.pageSub { font-size: 14px; color: var(--gray-500); margin-top: 4px; }
+
+.metricsGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: var(--gray-100); border: 1px solid var(--gray-100); }
+.metric { background: var(--white); padding: 28px 24px; }
+.metricValue { font-size: 32px; font-weight: 900; letter-spacing: -1px; color: var(--navy); line-height: 1; }
+.metricLabel { font-size: 13px; font-weight: 700; color: var(--navy); margin-top: 8px; }
+.metricSub { font-size: 12px; color: var(--gray-500); margin-top: 4px; }
+
+.twoCol { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.card { background: var(--white); border: 1px solid var(--gray-100); padding: 28px 32px; }
+.cardTitle { font-size: 13px; font-weight: 700; color: var(--navy); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+
+.planRow { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--gray-100); }
+.planRow:last-child { border-bottom: none; }
+.planName { font-size: 14px; font-weight: 600; color: var(--navy); width: 100px; flex-shrink: 0; }
+.planBar { flex: 1; height: 6px; background: var(--gray-100); border-radius: 3px; overflow: hidden; }
+.planBarFill { height: 100%; background: var(--blue); border-radius: 3px; transition: width 0.5s ease; }
+.planCount { font-size: 14px; font-weight: 800; color: var(--navy); width: 32px; text-align: right; flex-shrink: 0; }
+
+.dbRow { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--gray-100); }
+.dbRow:last-child { border-bottom: none; }
+.dbLabel { font-size: 14px; color: var(--gray-700); }
+.dbValue { font-size: 14px; font-weight: 700; color: var(--navy); }
+
+.signupRow { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--gray-100); }
+.signupRow:last-child { border-bottom: none; }
+.signupEmail { font-size: 13px; color: var(--navy); font-weight: 500; }
+.signupDate { font-size: 12px; color: var(--gray-500); }
+
+.removalRow { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--gray-100); gap: 12px; }
+.removalRow:last-child { border-bottom: none; }
+.removalName { font-size: 13px; font-weight: 600; color: var(--navy); }
+.removalEmail { font-size: 12px; color: var(--gray-500); }
+
+.alertBadge { background: #f59e0b; color: var(--white); font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 10px; }
+.emptyMsg { font-size: 13px; color: var(--gray-500); padding: 16px 0; }
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar { height: auto; position: static; }
+  .main { padding: 24px 20px; }
+  .metricsGrid { grid-template-columns: repeat(2, 1fr); }
+  .twoCol { grid-template-columns: 1fr; }
+}

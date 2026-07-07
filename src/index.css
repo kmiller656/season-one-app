@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --navy: #0f1923;
+  --blue: #2563eb;
+  --blue-dark: #1d4ed8;
+  --blue-light: #eff6ff;
+  --blue-border: #bfdbfe;
+  --text-mid: #374151;
+  --text-muted: #6b7280;
+  --border: #e5e7eb;
+  --surface: #f8faff;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-surface text-text-mid font-sans;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-extrabold tracking-headline text-navy;
+    font-weight: 800;
+  }
+
+  /* Consistent focus ring across the app */
+  :focus-visible {
+    outline: none;
+  }
+}
+
+@layer components {
+  /* Buttons — 9px radius, no gradients, no pills */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-btn px-4 py-2.5
+      text-sm font-semibold transition-colors duration-150
+      disabled:cursor-not-allowed disabled:opacity-60 select-none;
+  }
+  .btn-primary {
+    @apply btn bg-blue text-white hover:bg-blue-dark;
+  }
+  .btn-secondary {
+    @apply btn bg-white text-navy border border-border hover:bg-surface;
+  }
+  .btn-ghost {
+    @apply btn bg-transparent text-blue hover:bg-blue-light;
+  }
+  .btn-danger {
+    @apply btn bg-white text-red-600 border border-red-200 hover:bg-red-50;
+  }
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs;
+  }
+  .btn-lg {
+    @apply px-5 py-3 text-base;
+  }
+  .btn-block {
+    @apply w-full;
+  }
+
+  /* Form controls */
+  .label {
+    @apply block text-sm font-semibold text-navy mb-1.5;
+  }
+  .input {
+    @apply w-full rounded-btn border border-border bg-white px-3.5 py-2.5 text-sm
+      text-navy placeholder:text-text-muted transition
+      focus:border-blue focus:ring-2 focus:ring-blue/25;
+  }
+  .input-error {
+    @apply border-red-400 focus:border-red-500 focus:ring-red-500/20;
+  }
+  .field-hint {
+    @apply mt-1 text-xs text-text-muted;
+  }
+  .field-error {
+    @apply mt-1 text-xs text-red-600;
+  }
+
+  /* Cards — 12px radius */
+  .card {
+    @apply rounded-card border border-border bg-white shadow-card;
+  }
+  .card-pad {
+    @apply p-5 sm:p-6;
+  }
+
+  /* Badges / tags */
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold;
+  }
+  .tag {
+    @apply inline-flex items-center rounded-md px-2 py-0.5 text-xs font-semibold;
+  }
+
+  .link {
+    @apply text-blue hover:text-blue-dark font-medium;
+  }
+}
+
+@keyframes float-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-in {
+  animation: float-in 0.25s ease-out;
+}
