@@ -242,11 +242,11 @@ export default function Profile() {
                   Open to direct recruiter outreach
                 </p>
                 <p className="mt-1 text-sm text-text-muted">
-                  Season One also runs a PA contact database used by outside
-                  recruiters and staffing agencies. Turning this on lists
-                  your name and basic profile in their search — we never
-                  share your data with them by default. You can turn this
-                  off at any time.
+                  You agreed to this when you created your account — Season
+                  One also runs a PA contact database used by outside
+                  recruiters and staffing agencies, and your name and basic
+                  profile are listed in their search by default. Turn this
+                  off any time to be removed.
                 </p>
               </div>
               <label className="flex shrink-0 cursor-pointer items-center gap-2 pt-1">

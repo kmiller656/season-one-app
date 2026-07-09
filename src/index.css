@@ -12,6 +12,12 @@
   --text-muted: #6b7280;
   --border: #e5e7eb;
   --surface: #f8faff;
+  /* Marketing-site brand palette — see .auth-brand below */
+  --brand-navy: #1b4f8a;
+  --brand-navy-dark: #143c6b;
+  --brand-blue: #2e6db4;
+  --brand-green: #6eb43f;
+  --brand-green-dark: #5a9832;
 }
 
 @layer base {
@@ -120,4 +126,34 @@
 
 .animate-in {
   animation: float-in 0.25s ease-out;
+}
+
+/* ── Auth pages (Login/Register) — marketing-site palette ─────────────────
+   Scoped to .auth-brand so the rest of the app keeps its own theme; only
+   the sign-in/create-account flow reads as seasononehealthcare.com. */
+.auth-brand h1,
+.auth-brand h2,
+.auth-brand h3,
+.auth-brand h4,
+.auth-brand .label {
+  color: var(--brand-navy, #1b4f8a);
+}
+.auth-brand .label .text-blue {
+  color: var(--brand-green, #6eb43f);
+}
+.auth-brand .link {
+  color: var(--brand-blue, #2e6db4);
+}
+.auth-brand .link:hover {
+  color: var(--brand-navy, #1b4f8a);
+}
+.auth-brand .btn-primary {
+  background: var(--brand-green, #6eb43f);
+}
+.auth-brand .btn-primary:hover {
+  background: var(--brand-green-dark, #5a9832);
+}
+.auth-brand .input:focus {
+  border-color: var(--brand-navy, #1b4f8a);
+  box-shadow: 0 0 0 2px rgba(27, 79, 138, 0.2);
 }

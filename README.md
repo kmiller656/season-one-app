@@ -120,9 +120,8 @@ npm run preview  # preview the production build
 | `/`                         | public            | redirect (marketing or dashboard)    |
 | `/login`, `/register`       | public            | auth (+ inline forgot-password)      |
 | `/complete-profile`         | auth              | finish profile if incomplete         |
-| `/dashboard`                | PA                | stats, comp chart, latest matches    |
+| `/dashboard`                | PA                | clickable list of latest matches     |
 | `/dashboard/opportunities`  | PA                | filterable matches + interest        |
-| `/dashboard/contracts` …    | PA                | opportunities pre-filtered by type   |
 | `/dashboard/profile`        | PA                | edit profile                         |
 | `/dashboard/team`           | PA                | contact form (Web3Forms)             |
 | `/admin`                    | admin             | overview metrics                     |

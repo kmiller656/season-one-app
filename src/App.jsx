@@ -64,36 +64,6 @@ export default function App() {
           path="/dashboard/opportunities"
           element={<Opportunities key="all" />}
         />
-        <Route
-          path="/dashboard/contracts"
-          element={
-            <Opportunities
-              key="contract"
-              initialPositionType="Contract"
-              heading="Contracts"
-            />
-          }
-        />
-        <Route
-          path="/dashboard/direct-hire"
-          element={
-            <Opportunities
-              key="direct-hire"
-              initialPositionType="Permanent"
-              heading="Direct Hire"
-            />
-          }
-        />
-        <Route
-          path="/dashboard/locum"
-          element={
-            <Opportunities
-              key="locum"
-              initialPositionType="Locum"
-              heading="Locum Work"
-            />
-          }
-        />
         <Route path="/dashboard/profile" element={<Profile />} />
         <Route path="/dashboard/team" element={<Team />} />
       </Route>

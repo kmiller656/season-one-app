@@ -1,105 +1,37 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import toast from 'react-hot-toast'
 import { useAuth } from '../../context/AuthContext'
 import { useMatches } from '../../hooks/useMatches'
-import { compMidpointAnnual, formatUSD, timeAgo } from '../../lib/format'
-import { MatchStatusBadge, PositionTag } from '../../components/Tags'
+import { timeAgo } from '../../lib/format'
+import OpportunityCard from '../../components/OpportunityCard'
 import Spinner from '../../components/ui/Spinner'
 import EmptyState from '../../components/ui/EmptyState'
 
-const WEEK = 7 * 86400000
-
-function StatCard({ label, value, sub, accent = false }) {
-  return (
-    <div className="card card-pad">
-      <p className="text-sm font-medium text-text-muted">{label}</p>
-      <p
-        className={`mt-1 text-3xl font-extrabold tracking-headline ${
-          accent ? 'text-blue' : 'text-navy'
-        }`}
-      >
-        {value}
-      </p>
-      {sub && <p className="mt-1 text-xs text-text-muted">{sub}</p>}
-    </div>
-  )
-}
-
-function CompChart({ data, average }) {
-  const max = Math.max(...data.map((d) => d.value), 1)
-  return (
-    <div>
-      <div className="flex items-baseline justify-between">
-        <p className="text-sm font-medium text-text-muted">
-          Average compensation
-        </p>
-        <span className="text-xs text-text-muted">
-          {data.length} matched role{data.length === 1 ? '' : 's'}
-        </span>
-      </div>
-      <p className="mt-1 text-3xl font-extrabold tracking-headline text-navy">
-        {formatUSD(average)}
-        <span className="ml-1 text-sm font-medium text-text-muted">
-          / yr est.
-        </span>
-      </p>
-      <div className="mt-4 flex h-24 items-end gap-1.5">
-        {data.map((d, i) => (
-          <div
-            key={i}
-            className="group relative flex-1 rounded-t bg-blue/80 transition-all hover:bg-blue"
-            style={{ height: `${Math.max((d.value / max) * 100, 6)}%` }}
-            title={`${d.label}: ${formatUSD(d.value, { compact: true })}`}
-          />
-        ))}
-      </div>
-    </div>
-  )
-}
-
 export default function DashboardHome() {
-  const { profile, user } = useAuth()
-  const { matches, loading } = useMatches()
+  const { profile } = useAuth()
+  const { matches, loading, updateStatus } = useMatches()
   const [dismissed, setDismissed] = useState(false)
+  const [expandedId, setExpandedId] = useState(null)
+  const [busyId, setBusyId] = useState(null)
 
   const firstName = (profile?.full_name || '').split(' ')[0]
-
-  const stats = useMemo(() => {
-    const now = Date.now()
-    const newThisWeek = matches.filter(
-      (m) => m.status === 'new' && now - new Date(m.created_at).getTime() < WEEK
-    ).length
-    const interested = matches.filter((m) => m.status === 'interested').length
-
-    const withComp = matches
-      .map((m) => ({
-        label: m.opportunity.facility_name || m.opportunity.title,
-        value: compMidpointAnnual(
-          m.opportunity.compensation,
-          m.opportunity.compensation_type
-        ),
-      }))
-      .filter((x) => x.value)
-
-    const average = withComp.length
-      ? Math.round(
-          withComp.reduce((a, b) => a + b.value, 0) / withComp.length
-        )
-      : null
-
-    const chartData = withComp.slice(0, 8).reverse()
-
-    return {
-      newThisWeek,
-      interested,
-      total: matches.length,
-      average,
-      chartData,
-    }
-  }, [matches])
-
-  const latest = matches.slice(0, 6)
   const newest = matches[0]
+  const latest = matches.slice(0, 8)
+
+  const handleStatus = async (match, status) => {
+    setBusyId(match.id)
+    try {
+      await updateStatus(match.id, status)
+      toast.success(
+        status === 'interested' ? 'Marked as interested' : 'Marked as not for me'
+      )
+    } catch (e) {
+      toast.error('Could not update — please try again')
+    } finally {
+      setBusyId(null)
+    }
+  }
 
   if (loading) {
     return (
@@ -120,97 +52,36 @@ export default function DashboardHome() {
         </p>
       </div>
 
-      {/* Stats */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <StatCard
-          label="Your opportunities this week"
-          value={stats.newThisWeek}
-          sub="New matches in the last 7 days"
-          accent
-        />
-        <StatCard
-          label="Total matches"
-          value={stats.total}
-          sub={`${stats.interested} marked interested`}
-        />
-        <div className="card card-pad sm:col-span-2 lg:col-span-1">
-          {stats.chartData.length ? (
-            <CompChart data={stats.chartData} average={stats.average} />
-          ) : (
-            <>
-              <p className="text-sm font-medium text-text-muted">
-                Average compensation
-              </p>
-              <p className="mt-1 text-3xl font-extrabold tracking-headline text-navy">
-                —
-              </p>
-              <p className="mt-1 text-xs text-text-muted">
-                No compensation data yet.
-              </p>
-            </>
-          )}
-        </div>
-      </div>
-
-      {/* Latest matches */}
-      <div className="mt-6">
-        <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-lg">Latest matches</h2>
+      <div className="mb-3 flex items-center justify-between">
+        <h2 className="text-lg">Your matches</h2>
+        {matches.length > 0 && (
           <Link to="/dashboard/opportunities" className="link text-sm">
-            View all →
+            View all ({matches.length}) →
           </Link>
-        </div>
-
-        {latest.length === 0 ? (
-          <EmptyState
-            title="No matches yet"
-            message="As soon as a role matching your specialty is posted, it’ll show up here."
-          />
-        ) : (
-          <div className="card overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-border bg-surface text-left text-xs uppercase tracking-wide text-text-muted">
-                    <th className="px-4 py-3 font-semibold">Role</th>
-                    <th className="px-4 py-3 font-semibold">Facility</th>
-                    <th className="px-4 py-3 font-semibold">Compensation</th>
-                    <th className="px-4 py-3 font-semibold">Type</th>
-                    <th className="px-4 py-3 font-semibold">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {latest.map((m) => (
-                    <tr
-                      key={m.id}
-                      className="border-b border-border last:border-0 hover:bg-surface"
-                    >
-                      <td className="px-4 py-3 font-semibold text-navy">
-                        {m.opportunity.title}
-                      </td>
-                      <td className="px-4 py-3 text-text-mid">
-                        {m.opportunity.facility_name || '—'}
-                        <span className="block text-xs text-text-muted">
-                          {m.opportunity.location}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-text-mid">
-                        {m.opportunity.compensation || '—'}
-                      </td>
-                      <td className="px-4 py-3">
-                        <PositionTag type={m.opportunity.position_type} />
-                      </td>
-                      <td className="px-4 py-3">
-                        <MatchStatusBadge status={m.status} />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
         )}
       </div>
+
+      {matches.length === 0 ? (
+        <EmptyState
+          title="No matches yet"
+          message="As soon as a role matching your specialty is posted, it’ll show up here."
+        />
+      ) : (
+        <div className="space-y-3">
+          {latest.map((m) => (
+            <OpportunityCard
+              key={m.id}
+              match={m}
+              expanded={expandedId === m.id}
+              onToggle={() =>
+                setExpandedId((id) => (id === m.id ? null : m.id))
+              }
+              onStatus={(status) => handleStatus(m, status)}
+              busy={busyId === m.id}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Floating notification */}
       {newest && !dismissed && (
@@ -239,12 +110,18 @@ export default function DashboardHome() {
             <p className="text-sm text-text-muted">
               {newest.opportunity.facility_name} · {newest.opportunity.location}
             </p>
-            <Link
-              to="/dashboard/opportunities"
+            <button
+              onClick={() => {
+                setExpandedId(newest.id)
+                setDismissed(true)
+                document
+                  .getElementById(`match-${newest.id}`)
+                  ?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+              }}
               className="btn-primary btn-sm mt-3 w-full"
             >
               View opportunity
-            </Link>
+            </button>
           </div>
         </div>
       )}

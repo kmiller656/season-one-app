@@ -13,6 +13,16 @@ export default {
           light: '#eaf2fb',
           border: '#b8d4ef',
         },
+        // Marketing-site palette (seasononehealthcare.com) — used on the
+        // auth pages (Login/Register) and the Logo mark so they read as
+        // the same brand as the public site, not the internal app theme.
+        brand: {
+          navy: '#1B4F8A',
+          navyDark: '#143c6b',
+          blue: '#2E6DB4',
+          green: '#6EB43F',
+          greenDark: '#5a9832',
+        },
         text: {
           mid: '#374151',
           muted: '#6b7280',

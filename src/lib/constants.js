@@ -5,7 +5,7 @@ export const MARKETING_SITE = 'https://seasononehealthcare.com'
 export const WEB3FORMS_KEY =
   import.meta.env.VITE_WEB3FORMS_KEY || '29ab9da0-4cba-45a4-a0dc-57e0b49e7737'
 
-export const SUPPORT_EMAIL = 'support@seasononehealthcare.com'
+export const SUPPORT_EMAIL = 'ken@seasononehealthcare.com'
 
 // ---- Enum option lists (kept in sync with the SQL schema) ----
 export const CREDENTIALS = ['PA-C', 'PA Student']
@@ -70,10 +70,18 @@ export const SPECIALTIES = [
   'Pain Management',
   'Anesthesiology',
   'Radiology',
-  'Nephrology',
   'Rheumatology',
   'Infectious Disease',
   'Occupational Medicine',
+  'Plastic Surgery',
+  'Vascular Surgery',
+  'Otolaryngology (ENT)',
+  'Ophthalmology',
+  'Physical Medicine & Rehabilitation',
+  'Sports Medicine',
+  'Allergy & Immunology',
+  'Geriatrics',
+  "Women's Health",
   'Other',
 ]
 

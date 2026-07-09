@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { SUPPORT_EMAIL } from '../../lib/constants';
 import '../../styles/recruiters.css';
 import styles from './Paywall.module.css';
 
@@ -27,12 +28,12 @@ export default function Paywall() {
           We're still finishing up billing for the PA contact database. Your account is created and ready to go —
           we'll reach out as soon as plans are available, or you can contact us directly with questions in the meantime.
         </p>
-        <a href="mailto:support@seasononehealthcare.com" className="btn btn-primary">
+        <a href={`mailto:${SUPPORT_EMAIL}`} className="btn btn-primary">
           Contact Support
         </a>
         <p className={styles.legalNote}>
           Questions about the PA contact database? Email{' '}
-          <a href="mailto:support@seasononehealthcare.com">support@seasononehealthcare.com</a>.
+          <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>.
         </p>
       </div>
     </div>

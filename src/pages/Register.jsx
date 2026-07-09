@@ -13,6 +13,7 @@ import {
   CREDENTIALS,
   SPECIALTIES,
   AVAILABILITY_OPTIONS,
+  MARKETING_SITE,
 } from '../lib/constants'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -28,9 +29,9 @@ function Stepper({ steps, current }) {
             <span
               className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
                 active
-                  ? 'bg-blue text-white'
+                  ? 'bg-brand-navy text-white'
                   : done
-                    ? 'bg-blue/15 text-blue-dark'
+                    ? 'bg-brand-green/15 text-brand-green'
                     : 'bg-surface text-text-muted'
               }`}
             >
@@ -38,7 +39,7 @@ function Stepper({ steps, current }) {
             </span>
             <span
               className={`hidden text-xs font-semibold sm:block ${
-                active ? 'text-navy' : 'text-text-muted'
+                active ? 'text-brand-navy' : 'text-text-muted'
               }`}
             >
               {s.label}
@@ -80,6 +81,7 @@ export default function Register({ completion = false }) {
     phone: completion ? profile?.phone || '' : '',
     bio: completion ? profile?.bio || '' : '',
     company_name: '',
+    agreeToTerms: false,
   }))
   const isRecruiter = form.role === 'recruiter'
 
@@ -212,8 +214,8 @@ export default function Register({ completion = false }) {
                     onClick={() => set('role')('pa')}
                     className={`rounded-card border px-4 py-3 text-sm font-semibold transition-colors ${
                       !isRecruiter
-                        ? 'border-blue bg-blue-light text-blue-dark'
-                        : 'border-border text-text-muted hover:border-blue-border'
+                        ? 'border-brand-navy bg-brand-navy/5 text-brand-navy'
+                        : 'border-border text-text-muted hover:border-brand-navy/40'
                     }`}
                   >
                     Physician Assistant
@@ -226,8 +228,8 @@ export default function Register({ completion = false }) {
                     onClick={() => set('role')('recruiter')}
                     className={`rounded-card border px-4 py-3 text-sm font-semibold transition-colors ${
                       isRecruiter
-                        ? 'border-blue bg-blue-light text-blue-dark'
-                        : 'border-border text-text-muted hover:border-blue-border'
+                        ? 'border-brand-navy bg-brand-navy/5 text-brand-navy'
+                        : 'border-border text-text-muted hover:border-brand-navy/40'
                     }`}
                   >
                     Recruiter
@@ -435,8 +437,8 @@ export default function Register({ completion = false }) {
               />
             </Field>
 
-            <div className="rounded-card border border-blue-border bg-blue-light p-4">
-              <p className="text-sm font-semibold text-navy">Confirm your details</p>
+            <div className="rounded-card border border-brand-navy/20 bg-brand-navy/5 p-4">
+              <p className="text-sm font-semibold text-brand-navy">Confirm your details</p>
               <dl className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
                 <dt className="text-text-muted">Name</dt>
                 <dd className="text-navy">{form.full_name || '—'}</dd>
@@ -467,6 +469,51 @@ export default function Register({ completion = false }) {
                 )}
               </dl>
             </div>
+
+            {!completion && (
+              <label className="flex items-start gap-3 rounded-card border border-border p-4 text-sm">
+                <input
+                  type="checkbox"
+                  checked={form.agreeToTerms}
+                  onChange={(e) =>
+                    setForm((f) => ({ ...f, agreeToTerms: e.target.checked }))
+                  }
+                  className="mt-0.5 h-4 w-4 shrink-0 rounded border-border text-brand-navy focus:ring-brand-navy"
+                />
+                <span className="text-text-mid">
+                  I agree to Season One Healthcare's{' '}
+                  <a
+                    href={`${MARKETING_SITE}/terms.html`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="link"
+                  >
+                    Terms of Service
+                  </a>{' '}
+                  and{' '}
+                  <a
+                    href={`${MARKETING_SITE}/privacy.html`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="link"
+                  >
+                    Privacy Policy
+                  </a>
+                  {!isRecruiter && (
+                    <>
+                      , and I consent to being discoverable by recruiters and
+                      staffing agencies through Season One's PA contact
+                      database. You can turn this off anytime in{' '}
+                      <span className="font-medium text-navy">
+                        My Profile → Settings
+                      </span>
+                      .
+                    </>
+                  )}
+                  {isRecruiter && '.'}
+                </span>
+              </label>
+            )}
           </div>
         )}
 
@@ -484,7 +531,12 @@ export default function Register({ completion = false }) {
               Continue
             </Button>
           ) : (
-            <Button onClick={handleFinish} loading={submitting} type="button">
+            <Button
+              onClick={handleFinish}
+              loading={submitting}
+              disabled={!completion && !form.agreeToTerms}
+              type="button"
+            >
               {completion ? 'Save profile' : 'Create account'}
             </Button>
           )}

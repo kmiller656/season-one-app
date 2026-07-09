@@ -5,7 +5,6 @@ import { useAuth } from '../../context/AuthContext'
 import {
   FACILITY_TYPES,
   POSITION_TYPES,
-  COMPENSATION_TYPES,
   SPECIALTIES,
 } from '../../lib/constants'
 import { formatDate } from '../../lib/format'
@@ -29,7 +28,6 @@ const EMPTY = {
   specialty: '',
   position_type: '',
   compensation: '',
-  compensation_type: 'annual',
   description: '',
   is_active: true,
 }
@@ -80,7 +78,6 @@ export default function ManageOpportunities() {
       specialty: o.specialty || '',
       position_type: o.position_type || '',
       compensation: o.compensation || '',
-      compensation_type: o.compensation_type || 'annual',
       description: o.description || '',
       is_active: o.is_active,
     })
@@ -105,7 +102,6 @@ export default function ManageOpportunities() {
       specialty: form.specialty,
       position_type: form.position_type || null,
       compensation: form.compensation.trim() || null,
-      compensation_type: form.compensation_type || null,
       description: form.description.trim() || null,
       is_active: form.is_active,
     }
@@ -322,26 +318,18 @@ export default function ManageOpportunities() {
                 ))}
               </Select>
             </Field>
-            <Field label="Compensation" htmlFor="o-comp">
+            <Field
+              label="Compensation"
+              htmlFor="o-comp"
+              hint="Include the unit — e.g. “/ yr” or “/ hr”."
+              className="sm:col-span-2"
+            >
               <Input
                 id="o-comp"
                 value={form.compensation}
                 onChange={set('compensation')}
-                placeholder="$145,000 - $165,000"
+                placeholder="$145,000 - $165,000 / yr"
               />
-            </Field>
-            <Field label="Compensation type" htmlFor="o-comptype">
-              <Select
-                id="o-comptype"
-                value={form.compensation_type}
-                onChange={set('compensation_type')}
-              >
-                {COMPENSATION_TYPES.map((t) => (
-                  <option key={t} value={t}>
-                    {t}
-                  </option>
-                ))}
-              </Select>
             </Field>
           </div>
           <Field label="Description" htmlFor="o-desc">

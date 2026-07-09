@@ -32,25 +32,6 @@ const icons = {
       <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
     </I>
   ),
-  contracts: (
-    <I>
-      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-      <path d="M14 2v6h6M9 13h6M9 17h6" />
-    </I>
-  ),
-  directHire: (
-    <I>
-      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-      <circle cx="9" cy="7" r="4" />
-      <path d="m16 11 2 2 4-4" />
-    </I>
-  ),
-  locum: (
-    <I>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 7v5l3 2" />
-    </I>
-  ),
   profile: (
     <I>
       <circle cx="12" cy="8" r="4" />
@@ -78,9 +59,6 @@ const icons = {
 const paNav = [
   { to: '/dashboard', label: 'Dashboard', icon: icons.dashboard, end: true },
   { to: '/dashboard/opportunities', label: 'Opportunities', icon: icons.opportunities },
-  { to: '/dashboard/contracts', label: 'Contracts', icon: icons.contracts },
-  { to: '/dashboard/direct-hire', label: 'Direct Hire', icon: icons.directHire },
-  { to: '/dashboard/locum', label: 'Locum Work', icon: icons.locum },
   { to: '/dashboard/profile', label: 'My Profile', icon: icons.profile },
   { to: '/dashboard/team', label: 'My Team', icon: icons.team },
 ]
